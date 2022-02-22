@@ -23,6 +23,4 @@ urlpatterns = [
     path('user_orders', views.user_orders),
     path('pay_rate', views.pay_rate),
     path('get_top', views.get_top),
-    path('test', views.test),
-    path('deltest', views.deltest),
 ]

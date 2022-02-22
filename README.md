@@ -121,7 +121,7 @@ python manage.py runserver 0.0.0.0:8000
 
 参数：无
 
-url：http://你的IP:8000/add
+url：http://部署的服务器IP:8000/add
 
 表单格式：
 ```json 
@@ -183,11 +183,7 @@ print(response.text)
 也可使用postman等接口测试工具：
 ![Image text](https://github.com/FTLIKON/OrderProcess/blob/main/imgs/QQ%E5%9B%BE%E7%89%8720220223001842.png)
 
-<br />
-
-## 使用指南
-
-<br />
+---
 
 ### 接口二：通过用户id获取用户订单历史
 
@@ -197,7 +193,7 @@ print(response.text)
 
 说明：返回对应用户的所有完整订单信息
 
-url：http://你的IP:8000/user_orders?userId=1
+url：http://部署的服务器IP:8000/user_orders?userId=1
 
 > 成功信息实例：
 
@@ -233,7 +229,7 @@ url：http://你的IP:8000/user_orders?userId=1
 
 get接口可以直接在浏览器输入url请求。
 
-<br />
+---
 
 ### 接口三：按skuId查询从下单到实际付款概率
 
@@ -243,7 +239,7 @@ get接口可以直接在浏览器输入url请求。
 
 说明：返回对应商品的skuId，订单量，成交订单量，付款率
 
-url：http://你的IP:8000/pay_rate?skuId=4566
+url：http://部署的服务器IP:8000/pay_rate?skuId=4566
 
 > 成功信息实例：
 
@@ -278,7 +274,7 @@ url：http://你的IP:8000/pay_rate?skuId=4566
 }
 ```
 
-<br />
+---
 
 ### 接口四：按时段获得成交量最高的sku top10
 
@@ -288,7 +284,7 @@ url：http://你的IP:8000/pay_rate?skuId=4566
 
 说明：提取时间区间内的所有订单，判断每个商品对应的成交订单，进行排序取TOP10
 
-url：http://你的IP:8000/get_top?starttime=0&endtime=9999
+url：http://部署的服务器IP:8000/get_top?starttime=0&endtime=9999
 
 > 成功信息实例：
 
