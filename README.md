@@ -36,13 +36,13 @@ OrderProcess/
 
 ## 部署指南
 
-<br />
+
 
 ### 环境配置
 
 > **会django配置或已有django环境可跳过此步骤**
 
-<br />
+
 
 1. 确认服务器安全组**已开放8000端口**（出入站均设置开放）
 2. 下载并安装python3【[Python安装环境 下载地址](https://www.python.org/downloads/)】
@@ -87,11 +87,7 @@ Quit the server with CTRL-BREAK.
 8. **关闭django服务** 在命令行按下ctrl+c即可
 9. python与django运行环境已全部配置完成，可以开始项目部署。
 
-<br />
-
 ### 项目部署
-
-<br />
 
 1. 确认服务器安全组**已开放8000端口**（出入站均设置开放）
    
@@ -111,11 +107,7 @@ ALLOWED_HOSTS = ['你的部署服务器IP', 'localhost', '127.0.0.1']
 python manage.py runserver 0.0.0.0:8000
 ```
 
-<br />
-
 ## 使用指南
-
-<br />
 
 ### 接口一：模拟数据源
 
@@ -313,4 +305,3 @@ url：http://部署的服务器IP:8000/get_top?starttime=0&endtime=9999
 }
 ```
 
-<br />
