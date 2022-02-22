@@ -3,26 +3,33 @@
 
 ## 代码结构
 ```
-LLB_spider/wos_django/
-    |wos_django/
+README.md
+OrderProcess/
+    |dbModel/
+        |__pycache__/
+        |migrations
+        |__init__.py
+        |admin
+        |apps
+        |models --> 数据表设置文件
+        |tests.py
+        |views.py
+    |OrderProcess/
         |__pycache__/
         |__init__.py
         |asgi.py
-        |nk_get_vertify.py
-        |lanzou_get_vertify.py
-        |nk_new.py
-        |settings.py
-        |views.py
-        |urls.py
+        |settings.py --> django设置文件
+        |views.py --> 主后端代码文件
+        |urls.py --> 接口设置文件
         |wsgi.py
-    |db.sqlite3
+    |db.sqlite3 --> 数据库文件
     |manage.py
 ```
 
 ## 依赖环境
 - windows server 2016
-- python3.6.4
-- selenium【[selenium配置参考，点这里](https://zhuanlan.zhihu.com/p/372590832)】
+- python 3.6.4
+- Django 3.0.6
 - jsonpath
 - lxml
 
@@ -45,12 +52,12 @@ python -m pip install Django==3.0.6 -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 4. **创建django初始项目** 命令行中，cd进想要创建django项目的目录，执行:
 ```
-django-admin.py startproject wos_django
+django-admin.py startproject OrderProcess
 ```
 没有异常报错即为创建成功。会生成以下文件：
 ```
-.../wos_django/
-    |wos_django/
+.../OrderProcess/
+    |OrderProcess/
         |__init__.py
         |asgi.py
         |settings.py
@@ -78,6 +85,7 @@ Quit the server with CTRL-BREAK.
 ```
 7. 在浏览器访问地址：http://部署的服务器IP:8000/ ，出现django初始页则可正常访问
 8. **关闭django服务** 在命令行按下ctrl+c即可
+9. python与django运行环境已全部配置完成，可以开始项目部署。
 
 <br />
 
@@ -85,43 +93,18 @@ Quit the server with CTRL-BREAK.
 
 <br />
 
-1. **替换代码** 将项目代码中的nk_get_vertify.py，lanzou_get_vertify.py，nk_new.py，urls.py移动至django目录（urls.py需要覆盖）
+1. **下载代码**，将代码拉取到本地，并在命令行中cd进代码目录中
 
-当前代码结构为：
+2. **设置允许外部访问**  打开settings.py，找到以下代码(约在28行)：
 ```
-.../wos_django/
-    |wos_django/
-        |__pycache__/
-        |__init__.py
-        |asgi.py
-        |nk_get_vertify.py
-        |lanzou_get_vertify.py
-        |nk_new.py
-        |settings.py
-        |urls.py
-        |wsgi.py
-    |db.sqlite3
-    |manage.py
-```
-
-2. cd进有nk_get_vertify.py的目录下，打开此代码。找到以下代码(约在33行)：
-```
-driver = webdriver.Chrome(executable_path=r"C:\Users\Administrator\Desktop\chromedriver.exe")
+ALLOWED_HOSTS = []
 ```
 将其修改为:
 ```
-driver = webdriver.Chrome(executable_path=r"您的chromedriver绝对路径，参考selenium配置")
+ALLOWED_HOSTS = ['部署的服务器IP', 'localhost', '127.0.0.1']
 ```
 
-然后修改lanzou_get_vertify.py的代码，修改内容（约在21行）同上。
-
-3. 另外启动一个进程（可以另外新打开一个命令行窗口），启动nk_get_vertify.py:
-```
-python nk_get_vertify.py
-```
-可以看见selenium打开浏览器进入wos获取cookie和sid。待目录下生成vertify.txt后，即为成功。
-
-4. 启动django服务，执行：
+3. 启动django服务，执行：
 ```
 python manage.py runserver 0.0.0.0:8000
 ```
@@ -132,80 +115,59 @@ python manage.py runserver 0.0.0.0:8000
 
 <br />
 
-调用方式：get
+###　接口一：模拟数据源
 
-参数：keyword
+调用方式：post
+
+参数：add
 
 url：http://你的IP:8000/wos_new?keyword=neurosciences
 
-<br />
+表单格式：
+```json 
+{
+    "orderId": int // 订单id
+    "orderTime": int // 下单时间
+    "skuId": int // 商品id
+    "userId": int // 用户id
+    "status": int // 订单状态 (0待付款,1已付款,2取消)
+    "price": double  // 价格
+    "pay": double // 支付金额
+}
+```
 
 > 成功信息实例：
 
 ```json 
-{
-    "data":{
-        "keywords":'neurosciences', //检索的关键词
-        "published_year":[    //发布年份的统计结果(取最近20年)
-            {
-                "year":2000,    //年份
-                "count":10    //数量
-            }...],
-            
-        "document_type":[    //文献类型（取top10）
-            {
-                "type":"xxx",
-                "count":
-            }...],
-            
-        "wos_category":[    //Web of Science类别（取top20）
-            {
-                "category":'xxx',
-                "count":11
-            }...],
-            
-        "institution":[    //所属机构（取top20）
-            {
-                "name":'xxx',    //机构名称
-                "count":11    //记录数
-            }...],
-            
-        "journal":[    //出版物标题（期刊）（取top20）
-            {
-                "name":'xxx',    //期刊名称
-                "count":11    //记录数
-            }...],
-            
-        "fund_agency":[    //基金资助机构（取top20）
-            {
-                "name":'xxx',    //资助机构名称
-                "count":11    //记录数
-            }...],
-            
-        "researc_area":[    //研究方向（取top20）
-            {
-                "area":'xxx',    //研究方向名称
-                "count":11    //记录数
-            }...],
-            
-        "country":[//（取top20）
-            {
-                "name":"USA",    //国家名称
-                "count":11    //记录数
-            }...]
-    },
+1. {"data": {}, "succeed": true, "msg": "新增订单数据成功，当前订单数：12"}
 
-    "succeed":true/false,
-    "err_msg":"",//错误信息.succeed=false时填写    
-}
+2. {"data": {}, "succeed": true, "msg": "已存在orderId=1的订单，订单数据修改成功！，当前订单数：12"}
 ```
 
 > 错误信息实例
 
 ```json
-1. {"data": {}, "succeed": False, "err_msg": "模拟器请求的登录态失效，请检查是否能进入wos"}
-
-2. {"data": {}, "succeed": False, "err_msg": "您提交了空表单，或参数错误"}
+{"data": {}, "succeed": False, "msg": "您的请求提交不正确或提交格式错误，请检查！"}
 ```
 
+post接口调用可参考以下python请求代码：
+```python
+import requests
+
+url = "http://101.35.191.114:8000/add"
+
+payload='{"orderId": 1,"orderTime": 111,"skuId": 4566,"userId": 4,"status": 1,"price": 55.23,"pay": 45.12}'
+headers = {
+  'Content-Type': 'text/plain'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+
+```
+也可使用postman等接口测试工具：
+![Image text]()
+
 <br />
+
