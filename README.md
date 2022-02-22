@@ -138,7 +138,7 @@ url：http://你的IP:8000/wos_new?keyword=neurosciences
 
 > 成功信息实例：
 
-```json 
+```
 1. {"data": {}, "succeed": true, "msg": "新增订单数据成功，当前订单数：12"}
 
 2. {"data": {}, "succeed": true, "msg": "已存在orderId=1的订单，订单数据修改成功！，当前订单数：12"}
@@ -146,7 +146,7 @@ url：http://你的IP:8000/wos_new?keyword=neurosciences
 
 > 错误信息实例
 
-```json
+```
 {"data": {}, "succeed": False, "msg": "您的请求提交不正确或提交格式错误，请检查！"}
 ```
 
@@ -167,7 +167,7 @@ print(response.text)
 
 ```
 也可使用postman等接口测试工具：
-![Image text]()
+![Image text](https://github.com/FTLIKON/OrderProcess/blob/main/imgs/QQ%E5%9B%BE%E7%89%8720220223001842.png)
 
 <br />
 
