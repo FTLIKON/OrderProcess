@@ -115,13 +115,13 @@ python manage.py runserver 0.0.0.0:8000
 
 <br />
 
-###　接口一：模拟数据源
+### 接口一：模拟数据源
 
 调用方式：post
 
-参数：add
+参数：无
 
-url：http://你的IP:8000/wos_new?keyword=neurosciences
+url：http://你的IP:8000/add
 
 表单格式：
 ```json 
@@ -139,15 +139,29 @@ url：http://你的IP:8000/wos_new?keyword=neurosciences
 > 成功信息实例：
 
 ```
-1. {"data": {}, "succeed": true, "msg": "新增订单数据成功，当前订单数：12"}
+1. 
+{
+    "data":{},
+    "succeed":true,
+    "msg":"新增订单数据成功，当前订单数：12"
+}
 
-2. {"data": {}, "succeed": true, "msg": "已存在orderId=1的订单，订单数据修改成功！，当前订单数：12"}
+2.
+{
+    "data":{},
+    "succeed":true,
+    "msg":"已存在orderId=1的订单，订单数据修改成功！，当前订单数：12"
+}
 ```
 
 > 错误信息实例
 
 ```
-{"data": {}, "succeed": False, "msg": "您的请求提交不正确或提交格式错误，请检查！"}
+{
+    "data":{},
+    "succeed":false,
+    "msg":"您的请求提交不正确或提交格式错误，请检查！"
+}
 ```
 
 post接口调用可参考以下python请求代码：
@@ -171,3 +185,134 @@ print(response.text)
 
 <br />
 
+## 使用指南
+
+<br />
+
+### 接口二：通过用户id获取用户订单历史
+
+调用方式：get
+
+参数：userId
+
+说明：返回对应用户的所有完整订单信息
+
+url：http://你的IP:8000/user_orders?userId=1
+
+> 成功信息实例：
+
+```
+{
+    "data":{
+        "user_orders":[
+            {
+                "orderId":2,
+                "orderTime":111,
+                "skuId":4566,
+                "userId":1,
+                "status":0,
+                "price":45.23,
+                "pay":45.12
+            }
+        ]
+    },
+    "succeed":true,
+    "msg":"已成功查询到用户订单数量：1"
+}
+```
+
+> 错误信息实例
+
+```
+{
+    "data":{},
+    "succeed":false,
+    "msg":"您的请求提交不正确或提交格式错误，请检查！"
+}
+```
+
+get接口可以直接在浏览器输入url请求。
+
+<br />
+
+### 接口三：按skuId查询从下单到实际付款概率
+
+调用方式：get
+
+参数：skuId
+
+说明：返回对应商品的skuId，订单量，成交订单量，付款率
+
+url：http://你的IP:8000/pay_rate?skuId=4566
+
+> 成功信息实例：
+
+```
+{
+    "data":{
+        "skuId":"4566",
+        "order_num":9,
+        "pay_num":5,
+        "pay_rate":0.5555555555555556
+    },
+    "succeed":true,
+    "msg":"已成功查询到skuId=4566的订单共有9个，其中已付款5个，实际付款率为0.5555555555555556（付款数/订单总数）"
+}
+```
+
+> 错误信息实例
+
+```
+1.
+{
+    "data":{},
+    "succeed":false,
+    "msg":"您的请求提交不正确或提交格式错误，请检查！"
+}
+
+2.
+{
+    "data":{},
+    "succeed":false,
+    "msg":"未查询到该skuId"
+}
+```
+
+<br />
+
+### 接口四：按时段获得成交量最高的sku top10
+
+调用方式：get
+
+参数：时间区间。starttime：开始时间，endtime：结束时间
+
+说明：提取时间区间内的所有订单，判断每个商品对应的成交订单，进行排序取TOP10
+
+url：http://你的IP:8000/get_top?starttime=0&endtime=9999
+
+> 成功信息实例：
+
+```
+{
+    "data":{
+        "top10_skuId":[
+            "123",
+            "4566"
+        ]
+    },
+    "succeed":true,
+    "msg":"已成功获取并分析从0到9999的共12个订单，共2个成交的skuId，已按正序已列出成交额top10的skuId."
+}
+```
+
+> 错误信息实例
+
+```
+{
+    "data":{},
+    "succeed":false,
+    "msg":"您的请求提交不正确或提交格式错误，请检查！"
+}
+```
+
+<br />
