@@ -1,3 +1,4 @@
+[toc]
 
 # **订单处理-Django服务**
 
@@ -36,13 +37,9 @@ OrderProcess/
 
 ## 部署指南
 
-
-
 ### 环境配置
 
 > **会django配置或已有django环境可跳过此步骤**
-
-
 
 1. 确认服务器安全组**已开放8000端口**（出入站均设置开放）
 2. 下载并安装python3【[Python安装环境 下载地址](https://www.python.org/downloads/)】
