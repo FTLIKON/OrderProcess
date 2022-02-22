@@ -93,18 +93,20 @@ Quit the server with CTRL-BREAK.
 
 <br />
 
-1. **下载代码**，将代码拉取到本地，并在命令行中cd进代码目录中
+1. 确认服务器安全组**已开放8000端口**（出入站均设置开放）
+   
+2. **下载代码**，将代码拉取到本地，并在命令行中cd进代码目录中
 
-2. **设置允许外部访问**  打开settings.py，找到以下代码(约在28行)：
+3. **设置允许外部访问**  打开settings.py，找到以下代码(约在28行)：
 ```
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = '101.35.191.114', 'localhost', '127.0.0.1'
 ```
 将其修改为:
 ```
-ALLOWED_HOSTS = ['部署的服务器IP', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['你的部署服务器IP', 'localhost', '127.0.0.1']
 ```
 
-3. 启动django服务，执行：
+4. 启动django服务，执行：
 ```
 python manage.py runserver 0.0.0.0:8000
 ```
